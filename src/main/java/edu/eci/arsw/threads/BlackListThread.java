@@ -14,6 +14,7 @@ public class BlackListThread extends Thread {
     private List<Integer> blackListOcurrences = new LinkedList<>();
 
     private int ocurrencesCount;
+    private int checkedListsCount;
     private String ipaddress;
     private int start;
     private int end;
@@ -37,6 +38,10 @@ public class BlackListThread extends Thread {
         return blackListOcurrences;
     }
 
+    public int getCheckedListsCount() {
+        return checkedListsCount;
+    }
+
     @Override
     public void run() {
         System.out.println("\nBlackListThread is running...");
@@ -46,7 +51,7 @@ public class BlackListThread extends Thread {
     public void checkHost(int start, int end, String ipaddress) {
 
         HostBlacklistsDataSourceFacade skds = HostBlacklistsDataSourceFacade.getInstance();
-        int checkedListsCount = 0;
+        checkedListsCount = 0;
 
         for (int i = start; i <= end && ocurrencesCount < BLACK_LIST_ALARM_COUNT; i++) {
             checkedListsCount++;
@@ -59,7 +64,7 @@ public class BlackListThread extends Thread {
             }
         }
 
-        LOG.log(Level.INFO, "Thread start: {0} - end: {1}, Checked Black Lists:{2} of {3}",
+        LOG.log(Level.INFO, "Thread start: {0} end: {1}, Checked Black Lists:{2} of {3}",
                 new Object[] { start, end, checkedListsCount, end + 1 - start });
 
     }
