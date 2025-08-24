@@ -12,11 +12,13 @@ package edu.eci.arsw.threads;
 public class CountThread extends Thread{
 
     private int A, B;
+
     CountThread(int a, int b){
         this.A = a;
         this.B = b;
     }
 
+    @Override
     public void run() {
         System.out.println("\nCountThread is running...");
         
