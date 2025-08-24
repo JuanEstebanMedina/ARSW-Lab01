@@ -1,2 +1,22 @@
-target
+# Compiled class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Build directories
+target/
+build/
+bin/
+out/
