@@ -1,79 +1,91 @@
 # ARSW-Lab01
-PARALLELISM-JAVA_THREADS-INTRODUCTION_BLACKLISTSEARCH
+## PARALLELISM-JAVA_THREADS-INTRODUCTION_BLACKLISTSEARCH
 
-Escuela Colombiana de Ingeniería Julio Garavito
-Arquitecturas de Software - ARSW
-Laboratorio Número 1
+**Colombian School of Engineering Julio Garavito**  
+**Software Architectures - ARSW**  
+**Laboratory Number 1**
 
-Members:
-Juan Esteban Medina Rivas
-María Paula Sánchez Macías
+**Members:**
+- Juan Esteban Medina Rivas
+- María Paula Sánchez Macías
 
-Part I - Introducción a Hilos en Java
+---
 
-start(): Esta funcion inicia un nuevo hilo que de manera independiente se ejecuta en paralelo. Este método utiliza paralelismo.
-run(): Al llamar esta función, el proceso se ejecuta en el hilo actual. Este método utiliza ejecución secuencial.
+## Part I - Introduction to Java Threads
 
-Salida con start()
-Se inician los tres hilos y se imprimen lo números de manera simultanea
+**start():** This function starts a new thread that runs independently in parallel. This method uses parallelism.
+
+**run():** When calling this function, the process executes in the current thread. This method uses sequential execution.
+
+### Output with start()
+The three threads start and print numbers simultaneously.
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/1.%20PartI-start().png)
 
-Salida con run()
-Los números se muestran con total orden ya que los hilos se inician cuando el otro hilo acaba, no al tiempo.
+### Output with run()
+The numbers are shown in complete order since threads start when the other thread finishes, not at the same time.
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/2.%20PartI-run().png)
 
+---
 
-Part II - Ejercicio Black List Search
+## Part II - Black List Search Exercise
 
-Al refactorizar, creamos una nueva Clase en la carpeta Threads que es la clase que contiene el ciclo de vida de nuestro Hilo.
-Hicimos sobrecarga de métodos en la clase HostBlackListsValidator, poniendo un nuevo método CheckHost que recibe la dirección IP a revisar y el número de hilos a crear, y busca en la lista negra de las IP's al dividirse por segmentos en partes iguales para que cada hilo haga su respectiva búsqueda.
+When refactoring, we created a new Class in the Threads folder which is the class that contains the lifecycle of our Thread.
 
-PartII.I:
+We made method overloading in the HostBlackListsValidator class, adding a new CheckHost method that receives the IP address to check and the number of threads to create, and searches in the IP blacklist by dividing into equal segments so that each thread performs its respective search.
 
-¿Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?
-Ideamos que una posible solución podría ser que haya una variable que compartan todos los hilos para poder consultar cuando una IP ya se ha catalogada como no confiable
+### Part II.I:
 
-¿qué elemento nuevo traería esto al problema?
-Habría que sincronizar los hilos (sYnchronized), tocaría verificar constantemente el estado de la variable, habrían varios hilos modificando el contador al mismo tiempo
+**How could the implementation be modified to minimize the number of queries in these cases?**
+We thought that a possible solution could be having a variable shared by all threads to be able to check when an IP has already been classified as untrusted.
 
+**What new element would this bring to the problem?**
+We would have to synchronize the threads (synchronized), we would have to constantly verify the state of the variable, there would be several threads modifying the counter at the same time.
 
-Part III - Evaluación de Desempeño
-IP: 202.24.34.55
+---
 
---> Un solo hilo.
-visualvm
+## Part III - Performance Evaluation
+
+**IP:** 202.24.34.55
+
+### → Single thread
+**VisualVM**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/3.%20PartIII-1Thread.png)
-Resultado
+
+**Result**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/3.1%20PartIII-1ThreadResult.png)
 
---> Tantos hilos como núcleos de procesamiento
-a Main se le agregan estas líneas de codigo
+### → As many threads as processing cores
+These lines of code were added to Main:
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.0%20PartIII-Thread%3DCoresCodigo.png)
-visualvm
+
+**VisualVM**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.%20PartIII-Thread%3DCores.png)
-Resultado: 16 procesadores
+
+**Result:** 16 processors
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.1%20PartIII-Thread%3DCoresResult1.png)
 
--->Tantos hilos como el doble de núcleos de procesamiento.
-visualvm
+### → As many threads as double the processing cores
+**VisualVM**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/5.%20PartIII-NumberCores.png)
 
--->50 hilos.
-visualvm
+### → 50 threads
+**VisualVM**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/6.%20PartIII-50Threads.png)
 
--->100 hilos
-visualvm
+### → 100 threads
+**VisualVM**
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/7.%20PartIII-100Threads.png)
-Cómo cada vez que crecía la cantidad de hilos se disminuía considerablemente el tiempo, al llegar a los 100 hilos el proceso se ejcutaba en un segundo o menos impidiendo a visualvm proporcionar información en las gráficas
 
-Gráfica tiempo de solución vs. número de hilos
+As each time the number of threads increased, the time decreased considerably. When reaching 100 threads, the process executed in one second or less, preventing VisualVM from providing information in the graphs.
+
+### Time vs. Number of Threads Graph
 ![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/8.%20PartIII-TimevsThreads.png)
-teniedo en cuenta:
-* 1 hilo:  3MIN 25 SEG
-* 16 hilos:  57SEG
-* 32 hilos: 3SEG
-* 50 hilos: 2SEG
-* 100 hilos: 1SEG O MENOS
 
-Se puede evidenciar que para este ejercicio la paralelización termina siendo muy efectiva, donde despues de los 32 hilos la grafica se equilibraba y depues de ahí no vale la pena poner tantos hilos a funcionar sabiendo que los beneficios son prácticamente los mismos
+**Taking into account:**
+- 1 thread: 3MIN 25 SEC
+- 16 threads: 57SEC
+- 32 threads: 3SEC
+- 50 threads: 2SEC
+- 100 threads: 1SEC OR LESS
+
+It can be evidenced that for this exercise, parallelization ends up being very effective, where after 32 threads the graph stabilized and after that point it's not worth putting so many threads to work knowing that the benefits are practically the same.
