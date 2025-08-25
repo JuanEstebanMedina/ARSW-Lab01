@@ -19,11 +19,11 @@
 
 ### Output with start()
 The three threads start and print numbers simultaneously.
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/1.%20PartI-start().png)
+<img src="img/1. PartI-start().png">
 
 ### Output with run()
 The numbers are shown in complete order since threads start when the other thread finishes, not at the same time.
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/2.%20PartI-run().png)
+<img src="img/2. PartI-run().png">
 
 ---
 
@@ -49,37 +49,37 @@ We would have to synchronize the threads (synchronized), we would have to consta
 
 ### → Single thread
 **VisualVM**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/3.%20PartIII-1Thread.png)
+<img src="img/3. PartIII-1Thread.png">
 
 **Result**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/3.1%20PartIII-1ThreadResult.png)
+<img src="img/3.1 PartIII-1ThreadResult.png">
 
 ### → As many threads as processing cores
 These lines of code were added to Main:
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.0%20PartIII-Thread%3DCoresCodigo.png)
+<img src="img/4.0 PartIII-Thread=CoresCodigo.png">
 
 **VisualVM**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.%20PartIII-Thread%3DCores.png)
+<img src="img/4. PartIII-Thread=Cores.png">
 
 **Result:** 16 processors
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/4.1%20PartIII-Thread%3DCoresResult1.png)
+<img src="img/4.1 PartIII-Thread=CoresResult1.png">
 
 ### → As many threads as double the processing cores
 **VisualVM**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/5.%20PartIII-NumberCores.png)
+<img src="img/5. PartIII-NumberCores.png">
 
 ### → 50 threads
 **VisualVM**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/6.%20PartIII-50Threads.png)
+<img src="img/6. PartIII-50Threads.png">
 
 ### → 100 threads
 **VisualVM**
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/7.%20PartIII-100Threads.png)
+<img src="img/7. PartIII-100Threads.png">
 
 As each time the number of threads increased, the time decreased considerably. When reaching 100 threads, the process executed in one second or less, preventing VisualVM from providing information in the graphs.
 
 ### Time vs. Number of Threads Graph
-![](https://github.com/JuanEstebanMedina/ARSW-Lab01/blob/partIII/img/8.%20PartIII-TimevsThreads.png)
+<img src="img/8. PartIII-TimevsThreads.png">
 
 **Taking into account:**
 - 1 thread: 3MIN 25 SEC
@@ -89,3 +89,26 @@ As each time the number of threads increased, the time decreased considerably. W
 - 100 threads: 1SEC OR LESS
 
 It can be evidenced that for this exercise, parallelization ends up being very effective, where after 32 threads the graph stabilized and after that point it's not worth putting so many threads to work knowing that the benefits are practically the same.
+
+---
+
+## Part IV - Black List Search Exercise
+
+**Why is the best performance not achieved with 500 threads? How does this performance compare when using 200 threads?**
+
+P = 1. We assume the entire program is parallelizable because we haven’t learned how to isolate non-parallel sections yet. The result is deterministic, so under this assumption we treat the workload as fully parallel.
+
+Therefore, Amdahl’s law gives S(n) = n\
+S(500) = 500 \
+S(200) = 200
+
+Theoretically, performance should improve when using 500 threads. In practice, the best performance may not occur at 500 threads due to hardware limits and overheads. This machine exposes 16 processing cores according to *Runtime.getRuntime().availableProcessors()*. When *n* exceeds the number of cores, extra threads compete for the same resources. As a result, total time may stop improving, or may even get worse.
+
+
+**How does the solution perform using as many processing threads as cores compared to the result of using twice as many?**
+
+Since processors typically have two threads per physical core, 32 threads are barely sufficient for hardware limitations and therefore perform better than running it for *n=16*.
+
+**According to the above, if for this problem, instead of 100 threads on a single CPU, 1 thread could be used on each of 100 hypothetical machines, would Amdahl's law apply better? If, instead, c threads were used on 100/c distributed machines (where c is the number of cores on those machines), would this improve the situation? Explain your answer.**
+
+100 threads on a single CPU would exceed the physical limit of the component, which could be counterproductive and even worsen test performance in some scenarios. With this in mind, performance would be improved by using 1 thread on 100 different machines, as the threads would not need to compete for resources, thus allowing complete parallelism without hardware limitations.
