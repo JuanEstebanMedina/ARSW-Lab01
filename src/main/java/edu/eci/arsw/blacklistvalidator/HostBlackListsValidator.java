@@ -108,7 +108,7 @@ public class HostBlackListsValidator {
                 ocurrencesCount += thread.getOcurrencesCount();
                 checkedListsCount += thread.getCheckedListsCount();
                 blackListOcurrences.addAll(thread.getBlackListOcurrences());
-                System.out.println("thread.getBlackListOcurrences() " + thread.getBlackListOcurrences());
+                // System.out.println("thread.getBlackListOcurrences() " + thread.getBlackListOcurrences());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 LOG.log(Level.SEVERE, "Thread interrupted", e);
